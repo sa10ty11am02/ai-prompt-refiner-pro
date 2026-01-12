@@ -13,8 +13,8 @@ const Home = () => {
         setIsLoading(true);
         setResult(''); // Clear previous result
         try {
-            // Call Backend (Use Env Var or Default to Localhost)
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+            // Call Backend (Use Env Var or Default to Cloud URL)
+            const apiUrl = import.meta.env.VITE_API_URL || 'https://ai-prompt-refiner-pro-4376a.onrender.com';
             const response = await fetch(`${apiUrl}/api/improve`, {
                 method: 'POST',
                 headers: {

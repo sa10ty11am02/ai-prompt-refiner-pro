@@ -62,6 +62,21 @@ npm run dev
 
 *Access Dashboard: http://localhost:5173*
 
+## 🌩️ Backend Deployment (Render)
+To connect your live Frontend to the Cloud, you must deploy the Backend.
+
+1.  **Click to Deploy**:
+    [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/sa10ty11am02/ai-prompt-refiner-pro)
+    
+2.  **Configuration**:
+    *   **Root Directory**: `backend`
+    *   **Environment Variables**: Add `GEMINI_API_KEY` (copy from your local .env).
+
+3.  **Finalize**:
+    *   Copy the **Render URL** (e.g., `https://my-app.onrender.com`).
+    *   Go to **Netlify Site Settings** -> **Environment Variables**.
+    *   Add `VITE_API_URL` = `YOUR_RENDER_URL`.
+
 ## ☁️ Cloud Deployment (Netlify)
 **Recommended for AdSense Support.**
 You can deploy the frontend directly to Netlify.

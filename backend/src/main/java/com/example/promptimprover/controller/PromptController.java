@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173") // Allow requests from only frontend (React)
+@CrossOrigin(origins = { "http://localhost:5173", "https://eclectic-raindrop-5d73f3.netlify.app" }) // Allow requests
+                                                                                                    // from only
+                                                                                                    // frontend (React)
 public class PromptController {
 
     @Autowired
