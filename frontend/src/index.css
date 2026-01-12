@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --color-glass: rgba(255, 255, 255, 0.1);
+  --color-glassBorder: rgba(255, 255, 255, 0.2);
+  --color-luxuryDark: #0f172a;
+  --color-luxuryAccent: #8b5cf6;
+  --backdrop-blur-xs: 2px;
+}
+
+@layer base {
+  body {
+    @apply bg-luxuryDark text-white font-sans antialiased overflow-x-hidden;
+    background-image: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-glass backdrop-blur-lg border border-glassBorder rounded-2xl shadow-xl;
+  }
+
+  .luxury-button {
+    @apply bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg shadow-violet-500/30;
+  }
+
+  .input-field {
+    @apply w-full bg-glassBorder/10 border border-glassBorder rounded-xl p-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-luxuryAccent transition-all;
+  }
+}

@@ -1,0 +1,6 @@
+.env
+target/
+.idea/
+node_modules/
+.mvn/wrapper/maven-wrapper.properties
+.DS_Store
