@@ -25,7 +25,7 @@ We don't just "improve" text. We orchestrate a sophisticated reasoning process:
 
 ### **Backend Core (Spring Boot 3.2)**
 -   **Engine**: Java 17 + Spring Boot Web
--   **AI Integration**: **Google Gemini 1.5 Flash Latest** (Optimized for speed/quality balance)
+-   **AI Integration**: **Google Gemini 2.0 Flash** (Optimized for speed/quality balance)
 -   **Security**: `java-dotenv` integration for military-grade secret management.
 -   **Architecture**: RESTful API with strict CORS and Rate Limiting.
 
@@ -59,6 +59,23 @@ npm install
 npm run dev
 \`\`\`
 *Access Dashboard: http://localhost:5173*
+
+*Access Dashboard: http://localhost:5173*
+
+## ☁️ Cloud Deployment (Netlify)
+**Recommended for AdSense Support.**
+You can deploy the frontend directly to Netlify.
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/sa10ty11am02/ai-prompt-refiner-pro&base=frontend)
+
+### Netlify Setup Steps
+1.  Click the button above.
+2.  Connect your GitHub.
+3.  **Base directory**: `frontend`
+4.  **Build command**: `npm run build`
+5.  **Publish directory**: `dist`
+6.  **Environment Variables**: Add `VITE_API_URL` pointing to your Backend URL.
+
 
 ---
 

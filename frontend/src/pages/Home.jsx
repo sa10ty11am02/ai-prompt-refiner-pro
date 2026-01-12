@@ -13,8 +13,9 @@ const Home = () => {
         setIsLoading(true);
         setResult(''); // Clear previous result
         try {
-            // Call Spring Boot Backend
-            const response = await fetch('http://localhost:8080/api/improve', {
+            // Call Backend (Use Env Var or Default to Localhost)
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+            const response = await fetch(`${apiUrl}/api/improve`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
