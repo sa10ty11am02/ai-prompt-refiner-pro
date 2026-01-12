@@ -4,23 +4,39 @@ import Footer from '../components/Footer';
 
 const PrivacyPolicy = () => {
     return (
-        <div className="min-h-screen bg-luxuryDark relative overflow-hidden">
+        <div className="min-h-screen bg-luxuryDark relative text-gray-300">
             <Header />
-            <main className="container mx-auto px-4 py-24 relative z-10 text-gray-300">
-                <div className="glass-panel p-8 max-w-4xl mx-auto">
-                    <h1 className="text-3xl font-bold text-white mb-6">Privacy Policy</h1>
-                    <p className="mb-4">At PromptMaster AI, the privacy of our visitors is of extreme importance to us.</p>
+            <main className="container mx-auto px-4 py-24 relative z-10 max-w-4xl">
+                <div className="glass-panel p-8 md:p-12">
+                    <h1 className="text-4xl font-bold text-white mb-8">Privacy Policy</h1>
+                    <div className="space-y-6">
+                        <p>Last Updated: {new Date().toLocaleDateString()}</p>
 
-                    <h2 className="text-xl font-semibold text-white mt-6 mb-3">Log Files</h2>
-                    <p className="mb-4">Like many other Web sites, PromptMaster AI makes use of log files. The information inside the log files includes internet protocol ( IP ) addresses, type of browser, Internet Service Provider ( ISP ), date/time stamp, referring/exit pages, and number of clicks to analyze trends, administer the site, track user’s movement around the site, and gather demographic information.</p>
+                        <section>
+                            <h2 className="text-2xl font-semibold text-white mb-4">1. Introduction</h2>
+                            <p>Welcome to PromptMaster AI. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your data when you visit our website.</p>
+                        </section>
 
-                    <h2 className="text-xl font-semibold text-white mt-6 mb-3">Cookies and Web Beacons</h2>
-                    <p className="mb-4">PromptMaster AI does use cookies to store information about visitors preferences, record user-specific information on which pages the user access or visit, customize Web page content based on visitors browser type or other information that the visitor sends via their browser.</p>
+                        <section>
+                            <h2 className="text-2xl font-semibold text-white mb-4">2. Data Collection</h2>
+                            <p>We do not store your prompt history or personal details on our servers. The prompts you enter are processed purely for the purpose of enhancement via the Gemini API and are not retained by us.</p>
+                        </section>
 
-                    <h2 className="text-xl font-semibold text-white mt-6 mb-3">DoubleClick DART Cookie</h2>
-                    <p className="mb-4">.:: Google, as a third party vendor, uses cookies to serve ads on PromptMaster AI.<br />
-                        .:: Google's use of the DART cookie enables it to serve ads to users based on their visit to PromptMaster AI and other sites on the Internet.<br />
-                        .:: Users may opt out of the use of the DART cookie by visiting the Google ad and content network privacy policy at the following URL - http://www.google.com/privacy_ads.html</p>
+                        <section>
+                            <h2 className="text-2xl font-semibold text-white mb-4">3. Third-Party Services</h2>
+                            <p>We use Google AdSense to serve ads. Third parties, including Google, use cookies to serve ads based on a user's prior visits to your website or other websites.</p>
+                        </section>
+
+                        <section>
+                            <h2 className="text-2xl font-semibold text-white mb-4">4. Cookies</h2>
+                            <p>We use essential cookies to ensure the website functions properly. By using our site, you consent to our use of these cookies.</p>
+                        </section>
+
+                        <section>
+                            <h2 className="text-2xl font-semibold text-white mb-4">5. Contact</h2>
+                            <p>For any privacy-related queries, please contact us at privacy@promptmaster.ai.</p>
+                        </section>
+                    </div>
                 </div>
             </main>
             <Footer />

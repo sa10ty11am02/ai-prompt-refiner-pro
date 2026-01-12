@@ -1,67 +1,81 @@
-# 🧠 AI Prompt Refiner Pro
+# 🧠 PromptMaster AI: The Enterprise Prompt Engineering Suite
 
-> **Enterprise-Grade AI Prompt Engineering Tool** powered by Google Gemini 2.0 Flash.
-> _Transform vague ideas into production-ready LLM instructions using Sequential Thinking Logic._
+![Version](https://img.shields.io/badge/version-v1.0.0--stable-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Status](https://img.shields.io/badge/status-production-active)
 
-![Java](https://img.shields.io/badge/Backend-Spring%20Boot-green)
-![React](https://img.shields.io/badge/Frontend-React%20%2B%20Tailwind-blue)
-![Gemini](https://img.shields.io/badge/AI-Gemini%202.0%20Flash-purple)
-![License](https://img.shields.io/badge/License-MIT-orange)
+> **Unlock the full potential of Large Language Models.** Transform vague ideas into high-fidelity, actionable prompts using our proprietary **Sequential Thinking Engine**.
 
-## 🚀 The Core: Sequential Thinking Engine
-This application is not just a wrapper; it employs a **Sequential Thinking Architecture** to ensure high-fidelity prompt generation. Unlike simple passthrough tools, "Refiner Pro" processes user input through distinct cognitive stages:
+---
 
-1.  **Intent Recognition**: The system first analyzes the raw input to understand the *core objective* (e.g., Creative Writing, Coding, Data Analysis).
-2.  **Persona Injection**: It wraps the intent in an "Expert Persona" context (e.g., "Imagine you are a Senior DevOps Engineer...").
-3.  **Constraint Application**: It applies strict formatting rules (JSON, Code Blocks, No Yapping) to ensure the output is actionable.
-4.  **Iterative Refinement**: Using **Gemini 2.0 Flash Light/Latest**, it generates a structured, multi-shot prompt optimized for GPT-4, Claude 3, and Llama 3.
+## 🚀 Why PromptMaster AI?
 
-## 🛠️ Technical Architecture
+In the era of Generative AI, the quality of your output defines your competitive edge. PromptMaster AI isn't just a wrapper; it's a cognitive layer that sits between you and the LLM.
 
-### **Backend (Spring Boot 3.2)**
--   **Engine**: Java 17
--   **Security**: Enviroment-based Secret Management (`.env` protected).
--   **API Integration**: Google Gemini V1 Beta (Flash Latest).
--   **Resilience**: Custom error handling and rate-limit protection.
+### 💎 The "Intellectual Edge" Architecture
+We don't just "improve" text. We orchestrate a sophisticated reasoning process:
+1.  **Intent Recognition**: Deep analysis of user goals (coding, creative, data).
+2.  **Strategic Skeleton**: Drafting a high-level structural outline ("Skeleton-of-Thought").
+3.  **Iterative Refinement**: Polishing the structure into a cohesive, multi-shot prompt.
+4.  **Final Synthesis**: Delivering a prompt optimized for GPT-4, Claude 3.5, and Gemini Ultra.
 
-### **Frontend (Modern React)**
--   **UX**: Glassmorphism design system for a premium feel.
--   **Performance**: Vite-powered build with instantaneous HMR.
--   **Styling**: Tailwind CSS v4 (PostCSS optimized).
--   **Monetization**: Integrated AdSense placeholders for revenue generation.
+---
 
-## 📦 Installation & Setup
+## 🛠️ Technical Stack (v1.0.0)
 
-### Prerequisites
--   Java 17+
--   Node.js 18+
--   Google Gemini API Key
+### **Backend Core (Spring Boot 3.2)**
+-   **Engine**: Java 17 + Spring Boot Web
+-   **AI Integration**: **Google Gemini 1.5 Flash Latest** (Optimized for speed/quality balance)
+-   **Security**: `java-dotenv` integration for military-grade secret management.
+-   **Architecture**: RESTful API with strict CORS and Rate Limiting.
 
-### 1. Security Setup
-Create a `.env` file in the root directory:
+### **Frontend Interface (React 18)**
+-   **Design System**: Glassmorphism UI (Tailwind CSS v4).
+-   **UX**: Mobile-First, Responsive, and Accessible.
+-   **Routing**: React Router v6 with dedicated Legal Compliance pages.
+-   **Monetization**: AdSense-ready architecture with non-intrusive placeholders.
+
+---
+
+## 📦 Installation & Deployment
+
+### 1. Secure Setup
+This project uses **Environment Variables** for security. Create a `.env` file in the root:
 \`\`\`env
-GEMINI_API_KEY=your_secret_key_here
+GEMINI_API_KEY=your_secure_api_key_here
 \`\`\`
 
-### 2. Start the "Brain" (Backend)
+### 2. Launch the Brain (Backend)
 \`\`\`bash
 cd backend
 ./mvnw spring-boot:run
 \`\`\`
-*Server starts on Port 8080.*
+*Server initializes on Port 8080.*
 
-### 3. Start the Interface (Frontend)
+### 3. Launch the Interface (Frontend)
 \`\`\`bash
 cd frontend
 npm install
 npm run dev
 \`\`\`
-*Dashboard access: http://localhost:5173*
-
-## 🛡️ Security Note
-This repository follows **DevSecOps best practices**. API keys are never hardcoded. 
--   Sensitive data is loaded via `java-dotenv`.
--   `.env` and `target/` directories are strictly git-ignored.
+*Access Dashboard: http://localhost:5173*
 
 ---
-*Built by [Your Name] - 2026*
+
+## ⚖️ Legal & Compliance
+We are fully compliant with modern web standards.
+-   **Privacy Policy**: Transparent data handling (Prompt data is stateless).
+-   **Terms of Service**: Standard usage guidelines included.
+
+---
+
+## 🤝 Contributing
+Join us in building the future of Prompt Engineering.
+1.  Fork the Project
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
+
+---
+*© 2026 PromptMaster AI. Built with ❤️ and Sequential Thinking.*

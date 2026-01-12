@@ -30,13 +30,33 @@ public class GeminiService {
     public String improvePrompt(String originalPrompt) {
         String fullUrl = apiUrl + "?key=" + apiKey;
 
-        // Construct the prompt for Gemini
-        String systemInstruction = "You are an expert AI Prompt Engineer. Your task is to take a simple user input and transform it into a highly professional, detailed, and effective AI prompt. Return ONLY the improved prompt, no other text.";
-        String finalPrompt = systemInstruction + "\n\nUser Input: " + originalPrompt + "\n\nImproved Prompt:";
+        // SEQUENTIAL THINKING LOGIC (Viva Explanation):
+        // 1. Intent Analysis: We first ask the model to explicitly identify WHAT the
+        // user wants (Code, Essay, Data).
+        // 2. Structural Skeleton: We force the model to draft a bullet-point outline
+        // (The "Skeleton-of-Thought" framework).
+        // 3. Iterative Refinement: The model uses the skeleton to fill in the details.
+        // 4. Final Output: We extract ONLY the polished, high-fidelity prompt.
+
+        String systemInstruction = """
+                You are 'PromptMaster Pro', an advanced AI Prompt Engineer using Sequential Thinking.
+
+                YOUR PROCESS:
+                1. [Analyze Intent]: Identify the user's core goal, target audience, and constraint requirements.
+                2. [Draft Skeleton]: Create a structural outline for the perfect prompt (Role, Context, Task, Constraints, Output Format).
+                3. [Refine]: Convert the skeleton into a cohesive, high-performance prompt optimized for GPT-4/Gemini Ultra.
+
+                INPUT:
+                %s
+
+                OUTPUT INSTRUCTION:
+                Return ONLY the final Improved Prompt. Do not output the internal reasoning steps in the final response.
+                """
+                .formatted(originalPrompt);
 
         // Build the Request Body strictly following Gemini API structure
         // { "contents": [{ "parts": [{"text": "..."}] }] }
-        Map<String, String> part = Collections.singletonMap("text", finalPrompt);
+        Map<String, String> part = Collections.singletonMap("text", systemInstruction);
         Map<String, List<Map<String, String>>> content = Collections.singletonMap("parts",
                 Collections.singletonList(part));
         Map<String, List<Map<String, List<Map<String, String>>>>> requestBody = Collections.singletonMap("contents",
