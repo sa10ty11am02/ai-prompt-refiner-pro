@@ -8,7 +8,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = { "http://localhost:5173", "https://eclectic-raindrop-5d73f3.netlify.app" })
+@RequestMapping("/api")
 public class PromptController {
 
     @Autowired
