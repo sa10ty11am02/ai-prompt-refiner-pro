@@ -10,6 +10,7 @@ import AdPlaceholder from '../components/AdPlaceholder';
 const Home = () => {
     const [originalPrompt, setOriginalPrompt] = useState("");
     const [improvedPrompt, setImprovedPrompt] = useState("");
+    const [result, setResult] = useState(""); // Re-added to fix ReferenceError
     const [isLoading, setIsLoading] = useState(false);
     const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
 
