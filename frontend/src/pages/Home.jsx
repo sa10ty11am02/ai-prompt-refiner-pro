@@ -14,7 +14,7 @@ const Home = () => {
         setResult(''); // Clear previous result
         try {
             // Call Backend
-            const apiUrl = import.meta.env.VITE_API_URL || 'https://ai-prompt-refiner-pro-4376a.onrender.com';
+            const apiUrl = import.meta.env.VITE_API_URL || 'https://ai-prompt-refiner-pro.onrender.com';
 
             const response = await fetch(`${apiUrl}/api/improve`, {
                 method: 'POST',
