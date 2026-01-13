@@ -206,6 +206,7 @@ const Home = () => {
             </main>
 
             <Footer />
+            <LimitModal isOpen={isLimitModalOpen} onClose={() => setIsLimitModalOpen(false)} />
         </div>
     );
 };
