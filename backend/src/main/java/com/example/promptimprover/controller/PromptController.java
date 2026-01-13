@@ -15,6 +15,7 @@ public class PromptController {
 
     @PostMapping("/improve")
     public SseEmitter improvePrompt(@RequestBody PromptRequest request) {
+        System.out.println("Received request: " + request.getText());
         // Create an emitter with a long timeout (e.g., 60 seconds)
         SseEmitter emitter = new SseEmitter(60_000L);
 
@@ -29,7 +30,13 @@ public class PromptController {
         }
 
         // Delegate to service to stream data
-        geminiService.streamImprovePrompt(request.getText(), emitter);
+        try {
+            geminiService.streamImprovePrompt(request.getText(), emitter);
+        } catch (Exception e) {
+            System.err.println("Controller Error: " + e.getMessage());
+            e.printStackTrace();
+            emitter.completeWithError(e);
+        }
 
         return emitter;
     }

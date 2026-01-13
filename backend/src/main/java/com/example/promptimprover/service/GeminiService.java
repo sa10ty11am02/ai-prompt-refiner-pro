@@ -30,7 +30,21 @@ public class GeminiService {
     private final HttpClient client = HttpClient.newHttpClient();
 
     public void streamImprovePrompt(String originalPrompt, SseEmitter emitter) {
+        System.out.println("Starting streamImprovePrompt...");
+        if (apiKey == null || apiKey.isEmpty()) {
+            System.err.println("CRITICAL: API KEY IS MISSING OR NULL");
+            try {
+                emitter.send("Error: API Key is missing on Server.");
+                emitter.complete();
+            } catch (Exception e) {
+            }
+            return;
+        }
+        System.out
+                .println("API Key Present: " + (apiKey.length() > 5 ? "Yes (Length: " + apiKey.length() + ")" : "No"));
+
         String streamUrl = apiUrl.replace("generateContent", "streamGenerateContent") + "?key=" + apiKey;
+        System.out.println("Target URL: " + apiUrl);
 
         String systemInstruction = """
                 You are 'PromptMaster Pro'. Refine this prompt using Sequential Thinking (Intent -> Skeleton -> Refine).
@@ -55,11 +69,14 @@ public class GeminiService {
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .build();
 
+            System.out.println("Sending Request to Gemini...");
             client.sendAsync(request, HttpResponse.BodyHandlers.ofInputStream())
                     .thenAccept(response -> {
+                        System.out.println("Received Response. Status: " + response.statusCode());
                         if (response.statusCode() != 200) {
                             try {
                                 String errorBody = new String(response.body().readAllBytes());
+                                System.err.println("Gemini Error: " + errorBody);
                                 emitter.send("Error from AI: " + response.statusCode() + " - " + errorBody);
                                 emitter.complete();
                             } catch (Exception e) {
@@ -104,15 +121,18 @@ public class GeminiService {
                             }
                             emitter.complete();
                         } catch (Exception e) {
+                            System.err.println("Stream Processing Error: " + e.getMessage());
                             emitter.completeWithError(e);
                         }
                     })
                     .exceptionally(e -> {
+                        System.err.println("Async HTTP Error: " + e.getMessage());
                         emitter.completeWithError(e);
                         return null;
                     });
 
         } catch (Exception e) {
+            System.err.println("Setup Error: " + e.getMessage());
             emitter.completeWithError(e);
         }
     }
