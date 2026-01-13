@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PromptForm from '../components/PromptForm';
 import ResultDisplay from '../components/ResultDisplay';
-import AdPlaceholder from '../components/AdPlaceholder';
+
 
 const Home = () => {
     const [originalPrompt, setOriginalPrompt] = useState("");
@@ -125,12 +125,12 @@ const Home = () => {
                     </p>
                 </div>
 
-                <AdPlaceholder label="Top Ad" size="h-24" />
+
 
                 <PromptForm onSubmit={handleImprovePrompt} isLoading={isLoading} />
                 <ResultDisplay result={result} />
 
-                <AdPlaceholder label="Middle Ad" />
+
 
                 {/* SEO Content Section */}
                 <div className="w-full max-w-4xl mt-16 text-gray-300">
@@ -156,7 +156,7 @@ const Home = () => {
                     </div>
                 </div>
 
-                <AdPlaceholder label="Bottom Ad" />
+
             </main>
 
             <Footer />
