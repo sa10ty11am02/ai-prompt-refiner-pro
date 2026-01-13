@@ -7,6 +7,7 @@ const Footer = () => {
             <div className="container mx-auto px-4 text-center">
                 <p className="text-gray-400 mb-4">© 2026 PromptMaster AI. All rights reserved.</p>
                 <div className="flex justify-center space-x-6 text-sm">
+                    <Link to="/about" className="text-violet-400 hover:text-violet-300 transition-colors">About Us</Link>
                     <Link to="/privacy" className="text-violet-400 hover:text-violet-300 transition-colors">Privacy Policy</Link>
                     <Link to="/terms" className="text-violet-400 hover:text-violet-300 transition-colors">Terms of Service</Link>
                 </div>
