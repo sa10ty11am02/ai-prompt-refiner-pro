@@ -13,8 +13,9 @@ const Home = () => {
         setIsLoading(true);
         setResult(''); // Clear previous result
         try {
-            // Call Backend (Use Env Var or Default to Cloud URL)
+            // Call Backend
             const apiUrl = import.meta.env.VITE_API_URL || 'https://ai-prompt-refiner-pro-4376a.onrender.com';
+
             const response = await fetch(`${apiUrl}/api/improve`, {
                 method: 'POST',
                 headers: {
@@ -22,12 +23,44 @@ const Home = () => {
                 },
                 body: JSON.stringify({ text }),
             });
-            const data = await response.json();
-            setResult(data.improvedPrompt);
+
+            if (!response.body) {
+                throw new Error("ReadableStream not supported by browser.");
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let done = false;
+            let buffer = '';
+
+            while (!done) {
+                const { value, done: readerDone } = await reader.read();
+                done = readerDone;
+                if (value) {
+                    const chunk = decoder.decode(value, { stream: true });
+                    buffer += chunk;
+
+                    const lines = buffer.split('\n');
+                    // The last element might be an incomplete line
+                    buffer = lines.pop() || '';
+
+                    for (const line of lines) {
+                        if (line.trim().startsWith('data:')) {
+                            const data = line.replace(/^data:/, '');
+                            setResult((prev) => prev + data);
+                        }
+                    }
+                }
+            }
+            // Process any remaining buffer
+            if (buffer && buffer.trim().startsWith('data:')) {
+                const data = buffer.replace(/^data:/, '');
+                setResult((prev) => prev + data);
+            }
         } catch (error) {
             console.error("Error:", error);
-            alert("Server is updating, please wait.");
-            setResult(""); // Clear result on error
+            // Don't alert if we have partial result
+            if (!result) alert("Server is updating, please wait.");
         } finally {
             setIsLoading(false);
         }
