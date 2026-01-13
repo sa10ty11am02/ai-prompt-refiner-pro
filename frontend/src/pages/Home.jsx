@@ -1,4 +1,58 @@
-import React, { useState } from 'react';
+// Limit Modal Component
+const LimitModal = ({ isOpen, onClose }) => {
+    if (!isOpen) return null;
+    return (
+        <div style={{
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            backdropFilter: 'blur(5px)'
+        }}>
+            <div style={{
+                background: 'linear-gradient(135deg, #1e293b, #0f172a)',
+                padding: '2rem',
+                borderRadius: '16px',
+                border: '1px solid rgba(255,255,255,0.1)',
+                boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
+                maxWidth: '90%',
+                width: '400px',
+                textAlign: 'center',
+                color: 'white'
+            }}>
+                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🚀</div>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', background: 'linear-gradient(to right, #60a5fa, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                    Daily Limit Reached
+                </h2>
+                <p style={{ color: '#94a3b8', marginBottom: '2rem', lineHeight: '1.6' }}>
+                    You've used your <strong>5 free AI refinements</strong> for today! AdSense keeps us free for everyone.
+                    <br /><br />
+                    See you tomorrow for more creative magic! ✨
+                </p>
+                <button
+                    onClick={onClose}
+                    style={{
+                        background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
+                        color: 'white',
+                        padding: '0.75rem 2rem',
+                        borderRadius: '9999px',
+                        border: 'none',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'opacity 0.2s'
+                    }}
+                >
+                    Got it!
+                </button>
+            </div>
+        </div>
+    );
+};
+
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PromptForm from '../components/PromptForm';
@@ -6,12 +60,42 @@ import ResultDisplay from '../components/ResultDisplay';
 import AdPlaceholder from '../components/AdPlaceholder';
 
 const Home = () => {
-    const [result, setResult] = useState('');
+    const [originalPrompt, setOriginalPrompt] = useState("");
+    const [improvedPrompt, setImprovedPrompt] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
 
-    const handleImprovePrompt = async (text) => {
+    // Usage Limit Logic
+    const checkUsage = () => {
+        const today = new Date().toDateString();
+        const storedDate = localStorage.getItem('usage_date');
+        let count = parseInt(localStorage.getItem('usage_count') || '0');
+
+        if (storedDate !== today) {
+            // New day, reset count
+            count = 0;
+            localStorage.setItem('usage_date', today);
+            localStorage.setItem('usage_count', '0');
+        }
+
+        if (count >= 5) {
+            setIsLimitModalOpen(true);
+            return false;
+        }
+
+        // Increment usage
+        localStorage.setItem('usage_count', (count + 1).toString());
+        return true;
+    };
+
+    const handleImprovePrompt = async () => {
+        if (!originalPrompt.trim()) return;
+
+        // Check Limit FIRST
+        if (!checkUsage()) return;
+
         setIsLoading(true);
-        setResult(''); // Clear previous result
+        setImprovedPrompt(""); // Clear previous result
         try {
             // Call Backend
             // Call Backend - Hardcoded for reliability

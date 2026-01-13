@@ -47,16 +47,11 @@ public class GeminiService {
         System.out.println("Using Reliable URL: " + apiUrl);
 
         String systemInstruction = """
-                You are 'PromptMaster Pro', an expert Prompt Engineer.
-                Your goal is to refine the user's prompt to be clear, precise, and effective for LLMs.
-
-                RULES:
-                1. Output clearly in ENGLISH.
-                2. Use the structure: "Improved Prompt: [The Prompt] \n\n Explanation: [Why it works]"
-                3. Do not assume Hindi or other languages unless explicitly asked.
+                You are an expert Prompt Engineer. Your task is to take a simple user input and refine it into a detailed, high-quality prompt for Midjourney, ChatGPT, or Stable Diffusion. Be concise, use professional keywords, and structure the output clearly. Do not talk to the user, only output the refined prompt.
 
                 INPUT: %s
-                """.formatted(originalPrompt);
+                """
+                .formatted(originalPrompt);
 
         // Build Request Body
         Map<String, String> part = Collections.singletonMap("text", systemInstruction);
