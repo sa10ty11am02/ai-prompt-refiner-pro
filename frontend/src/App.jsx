@@ -9,7 +9,7 @@ function App() {
   // Ping Service to keep backend awake (every 13 minutes)
   React.useEffect(() => {
     const pingBackend = () => {
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://ai-prompt-refiner-pro.onrender.com';
+      const apiUrl = 'https://ai-prompt-refiner-pro.onrender.com';
       fetch(`${apiUrl}/api/ping`).catch(err => console.log("Ping failed", err));
     };
 
