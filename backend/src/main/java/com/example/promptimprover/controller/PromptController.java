@@ -8,7 +8,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
 @RequestMapping("/api")
-@RequestMapping("/api")
 public class PromptController {
 
     @Autowired
