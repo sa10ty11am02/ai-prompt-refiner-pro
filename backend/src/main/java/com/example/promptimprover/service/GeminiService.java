@@ -57,6 +57,17 @@ public class GeminiService {
 
             client.sendAsync(request, HttpResponse.BodyHandlers.ofInputStream())
                     .thenAccept(response -> {
+                        if (response.statusCode() != 200) {
+                            try {
+                                String errorBody = new String(response.body().readAllBytes());
+                                emitter.send("Error from AI: " + response.statusCode() + " - " + errorBody);
+                                emitter.complete();
+                            } catch (Exception e) {
+                                emitter.completeWithError(e);
+                            }
+                            return;
+                        }
+
                         try (InputStream stream = response.body();
                                 BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
 
