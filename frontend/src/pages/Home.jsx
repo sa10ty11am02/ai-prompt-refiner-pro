@@ -1,56 +1,4 @@
-// Limit Modal Component
-const LimitModal = ({ isOpen, onClose }) => {
-    if (!isOpen) return null;
-    return (
-        <div style={{
-            position: 'fixed',
-            top: 0, left: 0, right: 0, bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.7)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            backdropFilter: 'blur(5px)'
-        }}>
-            <div style={{
-                background: 'linear-gradient(135deg, #1e293b, #0f172a)',
-                padding: '2rem',
-                borderRadius: '16px',
-                border: '1px solid rgba(255,255,255,0.1)',
-                boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
-                maxWidth: '90%',
-                width: '400px',
-                textAlign: 'center',
-                color: 'white'
-            }}>
-                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🚀</div>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', background: 'linear-gradient(to right, #60a5fa, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                    Daily Limit Reached
-                </h2>
-                <p style={{ color: '#94a3b8', marginBottom: '2rem', lineHeight: '1.6' }}>
-                    You've used your <strong>5 free AI refinements</strong> for today! AdSense keeps us free for everyone.
-                    <br /><br />
-                    See you tomorrow for more creative magic! ✨
-                </p>
-                <button
-                    onClick={onClose}
-                    style={{
-                        background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
-                        color: 'white',
-                        padding: '0.75rem 2rem',
-                        borderRadius: '9999px',
-                        border: 'none',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        transition: 'opacity 0.2s'
-                    }}
-                >
-                    Got it!
-                </button>
-            </div>
-        </div>
-    );
-};
+
 
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
@@ -207,6 +155,60 @@ const Home = () => {
 
             <Footer />
             <LimitModal isOpen={isLimitModalOpen} onClose={() => setIsLimitModalOpen(false)} />
+        </div>
+    );
+};
+
+// Limit Modal Component
+const LimitModal = ({ isOpen, onClose }) => {
+    if (!isOpen) return null;
+    return (
+        <div style={{
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            backdropFilter: 'blur(5px)'
+        }}>
+            <div style={{
+                background: 'linear-gradient(135deg, #1e293b, #0f172a)',
+                padding: '2rem',
+                borderRadius: '16px',
+                border: '1px solid rgba(255,255,255,0.1)',
+                boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
+                maxWidth: '90%',
+                width: '400px',
+                textAlign: 'center',
+                color: 'white'
+            }}>
+                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🚀</div>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', background: 'linear-gradient(to right, #60a5fa, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                    Daily Limit Reached
+                </h2>
+                <p style={{ color: '#94a3b8', marginBottom: '2rem', lineHeight: '1.6' }}>
+                    You've used your <strong>5 free AI refinements</strong> for today! AdSense keeps us free for everyone.
+                    <br /><br />
+                    See you tomorrow for more creative magic! ✨
+                </p>
+                <button
+                    onClick={onClose}
+                    style={{
+                        background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
+                        color: 'white',
+                        padding: '0.75rem 2rem',
+                        borderRadius: '9999px',
+                        border: 'none',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'opacity 0.2s'
+                    }}
+                >
+                    Got it!
+                </button>
+            </div>
         </div>
     );
 };
