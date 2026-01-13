@@ -30,25 +30,30 @@ public class GeminiService {
     private final HttpClient client = HttpClient.newHttpClient();
 
     public void streamImprovePrompt(String originalPrompt, SseEmitter emitter) {
-        System.out.println("Starting streamImprovePrompt...");
+        System.out.println("Starting Reliable Prompt Improvement...");
         if (apiKey == null || apiKey.isEmpty()) {
-            System.err.println("CRITICAL: API KEY IS MISSING OR NULL");
+            System.err.println("CRITICAL: API KEY IS MISSING");
             try {
-                emitter.send("Error: API Key is missing on Server.");
+                emitter.send("Error: API Key is missing.");
                 emitter.complete();
             } catch (Exception e) {
             }
             return;
         }
-        System.out
-                .println("API Key Present: " + (apiKey.length() > 5 ? "Yes (Length: " + apiKey.length() + ")" : "No"));
 
-        String streamUrl = apiUrl.replace("generateContent", "streamGenerateContent") + "?key=" + apiKey;
-        System.out.println("Target URL: " + apiUrl);
+        // Use standard generateContent (NOT streamGenerateContent) for reliability
+        // URL is already ...:generateContent in properties, so we use it directly.
+        String targetUrl = apiUrl + "?key=" + apiKey;
+        System.out.println("Using Reliable URL: " + apiUrl);
 
         String systemInstruction = """
-                You are 'PromptMaster Pro'. Refine this prompt using Sequential Thinking (Intent -> Skeleton -> Refine).
-                Return ONLY the final Improved Prompt.
+                You are 'PromptMaster Pro', an expert Prompt Engineer.
+                Your goal is to refine the user's prompt to be clear, precise, and effective for LLMs.
+
+                RULES:
+                1. Output clearly in ENGLISH.
+                2. Use the structure: "Improved Prompt: [The Prompt] \n\n Explanation: [Why it works]"
+                3. Do not assume Hindi or other languages unless explicitly asked.
 
                 INPUT: %s
                 """.formatted(originalPrompt);
@@ -64,76 +69,73 @@ public class GeminiService {
             String jsonBody = mapper.writeValueAsString(requestBody);
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(streamUrl))
+                    .uri(URI.create(targetUrl))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .build();
 
-            System.out.println("Sending Request to Gemini...");
-            client.sendAsync(request, HttpResponse.BodyHandlers.ofInputStream())
+            System.out.println("Sending Synchronous Request...");
+
+            // Send Async but parse as full JSON object
+            client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                     .thenAccept(response -> {
-                        System.out.println("Received Response. Status: " + response.statusCode());
+                        System.out.println("Response Status: " + response.statusCode());
                         if (response.statusCode() != 200) {
                             try {
-                                String errorBody = new String(response.body().readAllBytes());
-                                System.err.println("Gemini Error: " + errorBody);
-                                emitter.send("Error from AI: " + response.statusCode() + " - " + errorBody);
+                                emitter.send("Error from AI: " + response.statusCode() + " - " + response.body());
                                 emitter.complete();
                             } catch (Exception e) {
-                                emitter.completeWithError(e);
                             }
                             return;
                         }
 
-                        try (InputStream stream = response.body();
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+                        try {
+                            // Parse FULL JSON response
+                            JsonNode root = mapper.readTree(response.body());
+                            // Navigate: candidates[0].content.parts[0].text
+                            JsonNode candidates = root.path("candidates");
+                            if (candidates.isArray() && candidates.size() > 0) {
+                                JsonNode parts = candidates.get(0).path("content").path("parts");
+                                if (parts.isArray() && parts.size() > 0) {
+                                    String fullText = parts.get(0).path("text").asText();
 
-                            String line;
-                            while ((line = reader.readLine()) != null) {
-                                line = line.trim();
-                                if (line.isEmpty())
-                                    continue;
-                                // Gemini sends "data: { ... }" lines
-                                if (line.startsWith("data: ")) {
-                                    String dataJson = line.substring(6);
-                                    if (dataJson.equals("[DONE]"))
-                                        break;
-
-                                    try {
-                                        JsonNode node = mapper.readTree(dataJson);
-                                        if (node.has("candidates")) {
-                                            JsonNode candidates = node.get("candidates");
-                                            if (candidates.isArray() && candidates.size() > 0) {
-                                                JsonNode contentNode = candidates.get(0).get("content");
-                                                if (contentNode != null && contentNode.has("parts")) {
-                                                    JsonNode parts = contentNode.get("parts");
-                                                    if (parts.isArray() && parts.size() > 0) {
-                                                        String textChunk = parts.get(0).get("text").asText();
-                                                        emitter.send(textChunk);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    } catch (Exception e) {
-                                        // Ignore parsing errors for intermediate lines
+                                    // Send to frontend (simulating a stream or just sending it)
+                                    // We split by newlines to send "chunks" so frontend doesn't choke or to give a
+                                    // slight delay feel
+                                    String[] lines = fullText.split("\\n");
+                                    for (String line : lines) {
+                                        emitter.send(line + "\n");
+                                        // Tiny delay to help tokenizer/buffer
+                                        Thread.sleep(50);
                                     }
+                                    emitter.complete();
+                                    return;
                                 }
                             }
+                            emitter.send("Error: No text generated.");
                             emitter.complete();
                         } catch (Exception e) {
-                            System.err.println("Stream Processing Error: " + e.getMessage());
-                            emitter.completeWithError(e);
+                            System.err.println("Parsing Error: " + e.getMessage());
+                            try {
+                                emitter.completeWithError(e);
+                            } catch (Exception ex) {
+                            }
                         }
                     })
                     .exceptionally(e -> {
-                        System.err.println("Async HTTP Error: " + e.getMessage());
-                        emitter.completeWithError(e);
+                        System.err.println("Request Error: " + e.getMessage());
+                        try {
+                            emitter.completeWithError(e);
+                        } catch (Exception ex) {
+                        }
                         return null;
                     });
 
         } catch (Exception e) {
-            System.err.println("Setup Error: " + e.getMessage());
-            emitter.completeWithError(e);
+            try {
+                emitter.completeWithError(e);
+            } catch (Exception ex) {
+            }
         }
     }
 }
