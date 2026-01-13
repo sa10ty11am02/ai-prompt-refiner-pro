@@ -37,14 +37,19 @@ const Home = () => {
         return true;
     };
 
-    const handleImprovePrompt = async () => {
-        if (!originalPrompt.trim()) return;
+    const handleImprovePrompt = async (text) => {
+        if (!text.trim()) return;
+
+        // Update local state for display/logic
+        setOriginalPrompt(text);
 
         // Check Limit FIRST
         if (!checkUsage()) return;
 
         setIsLoading(true);
-        setImprovedPrompt(""); // Clear previous result
+        setImprovedPrompt("");
+        setResult(""); // Clear previous result
+
         try {
             // Call Backend
             // Call Backend - Hardcoded for reliability
